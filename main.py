@@ -17,9 +17,19 @@ div = soup.find('div', class_='shisetsu_schedule')
 table = div.find('table', class_='base_table01')
 for trs in table.findAll('tr'):
     schedule_string = '';
+    datas = []
     for i, td in enumerate(trs.findAll('td')):
         if i != 4:
             schedule_string += td.text.strip()
-            if i != 3:
-                schedule_string += '/'
-    print(schedule_string)
+            datas.append(td.text.strip())
+            schedule_string += ' / '
+        else:
+            schedule_string += '\n'
+            schedule_string += 'https://www.tef.or.jp/tmg/opening_popup.jsp?doSearch=true&start_year='
+            schedule_string += str(now.year)
+            schedule_string += '&start_month='
+            schedule_string += datas[0]
+            schedule_string += '&start_day='
+            schedule_string += datas[1]
+    if len(schedule_string) > 0:
+        print(schedule_string)
